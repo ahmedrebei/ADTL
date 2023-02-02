@@ -85,8 +85,3 @@ class Train():
             self.validation_loss_items.append(val_loss)
             if progress_verbose:
                 print(' ------ validation loss {:.5f}'.format(val_loss))
-
-        # if progress_verbose:
-        #     print('\repoch {:0>2} train loss {:.5f}'.format(
-        #         epoch+1, loss.item()), end='')
-        #     print(' ------ validation loss {:.5f}'.format(val_loss))
