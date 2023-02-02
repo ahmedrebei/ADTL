@@ -2,6 +2,10 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
+from models import LSTM_Model
+from train import Train
+from utils import fisher_distance
+
 
 # data functions
 class Data_generator(Dataset):
@@ -46,9 +50,10 @@ def create_loaders(merged_data, train_window, horizon, batch_size, split_ratio=0
         return train_loader, validation_loader
     return train_loader, None
 
-## data simulation
+# data simulation
 
-def simulate_data(dataset_number = 10, weekend_gain = 1.2, number_of_weeks = 1):
+
+def simulate_data(dataset_number=10, weekend_gain=1.2, number_of_weeks=1):
 
     number_of_samples_per_day = 48
     number_of_samples_per_week = 48 * 7
@@ -56,17 +61,36 @@ def simulate_data(dataset_number = 10, weekend_gain = 1.2, number_of_weeks = 1):
     weekend_period_length = number_of_samples_per_day * 2
 
     weekend_gain_list = [1]*(number_of_samples_per_week -
-                            weekend_period_length)+[weekend_gain]*weekend_period_length
+                             weekend_period_length)+[weekend_gain]*weekend_period_length
     week_simulation = (1+np.sin(np.linspace(-np.pi/2, 14*np.pi -
-                    np.pi/2, week_length)))*weekend_gain_list
+                                            np.pi/2, week_length)))*weekend_gain_list
 
     nbr_of_days = 7 * number_of_weeks
     timeseries_simulation = np.tile(week_simulation, number_of_weeks)
 
     trend = [np.linspace(0, i, num=number_of_samples_per_day*nbr_of_days)
-            for i in np.linspace(0, 2, dataset_number)]
+             for i in np.linspace(0, 2, dataset_number)]
     noise = [np.random.normal(scale=scale, size=number_of_samples_per_day*nbr_of_days)
-            for scale in np.linspace(0.01, 0.1, dataset_number)]
+             for scale in np.linspace(0.01, 0.1, dataset_number)]
     merged_data = timeseries_simulation + trend + noise
 
     return merged_data
+
+    ##
+
+
+def train_and_get_distance(merged_data, dataset_index, train_window, horizon, batch_size, input_dimension, hidden_dimension, num_epochs=50, verbose=True, verbose_every=10):
+    train_loader, validation_loader = create_loaders(
+        merged_data[dataset_index], train_window, horizon, batch_size)
+    model = LSTM_Model(input_dimension, hidden_dimension, horizon)
+    train_object = Train(model, train_loader, validation_loader)
+    train_object.train(num_epochs=num_epochs, verbose=verbose,
+                       verbose_every=verbose_every)
+
+    distances_list = []
+    for i in range(0, len(merged_data)):
+        t_loader, v_loader = create_loaders(
+            merged_data[i], train_window, horizon, batch_size)
+        distances_list.append(fisher_distance(
+            train_object.model, validation_loader, v_loader, batch_size, batch_size))
+    return distances_list
