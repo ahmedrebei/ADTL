@@ -16,7 +16,6 @@ class LSTM_Model(nn.Module):
         
     def forward(self, x):
         _, (x,_) = self.lstm(x)
-        print('before linear' , x.shape)
 #         x = torch.squeeze(x[1])
         x = self.fc2(self.dropout(self.fc1(x)))
         return torch.squeeze(x)
