@@ -1,3 +1,8 @@
 .vscode
 experiment_1/__pycache__
 experiment_1/.ipynb_checkpoints
+
+experiment_2/__pycache__
+experiment_2/experiment2RealData
+experiment_2/AEMO
+experiment_2/.ipynb_checkpoints
