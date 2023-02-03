@@ -1,4 +1,4 @@
-# Affinity driven Transfer Learning in short term load forecasting
+# Affinity driven Transfer Learning for short term load forecasting
 ## Experiment 1
 This is the experiment from section 3.1.2. It is performed on simulated data set. 
 The following figure prensents the distance between task 1 (respectivaly task 5) and sll the other tasks.
