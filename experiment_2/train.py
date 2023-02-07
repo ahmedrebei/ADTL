@@ -61,6 +61,8 @@ class Train():
         for epoch in range(num_epochs):
             if verbose:
                 progress_verbose = not ((epoch+1) % verbose_every)
+            else:
+                progress_verbose = False
             epoch_loss = []
             for i, data in enumerate(self.train_loader, 0):
 
