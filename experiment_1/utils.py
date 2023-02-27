@@ -36,14 +36,6 @@ def fisher_matrix(model, data, batch_size_test):
     return {key: param for key, param in fisher.items()}
 
 
-# def fisher_distance(fisher_source, fisher_target, model):
-#     distance = 0
-#     for key, param in model.named_parameters():
-#         distance += 0.5 * \
-#             np.sum(
-#                 ((fisher_source[key] ** 0.5 - fisher_target[key] ** 0.5) ** 2).cpu().numpy())
-#     return distance
-
 
 def fisher_distance(model, source_data, target_data, source_batch_size, target_batch_size):
     fisher_source = fisher_matrix(model, source_data, source_batch_size)

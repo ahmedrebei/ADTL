@@ -88,9 +88,11 @@ def train_and_get_distance(merged_data, dataset_index, train_window, horizon, ba
                        verbose_every=verbose_every)
 
     distances_list = []
+    loss_list = []
     for i in range(0, len(merged_data)):
         t_loader, v_loader = create_loaders(
             merged_data[i], train_window, horizon, batch_size)
         distances_list.append(fisher_distance(
             train_object.model, validation_loader, v_loader, batch_size, batch_size))
-    return distances_list
+        loss_list.append(train_object.validation_evaluation().item())
+    return distances_list, loss_list
