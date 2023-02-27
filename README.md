@@ -9,3 +9,4 @@ The following figure prensents the distance between task 1 (respectivaly task 5)
 
 ## Autralian appartement dataset Experiment
 
+![download](https://user-images.githubusercontent.com/35613655/221671960-970e5228-6dd2-4756-87f4-a290ab9fca6d.png)
