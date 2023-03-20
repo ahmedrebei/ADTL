@@ -11,5 +11,4 @@ The following figure prensents the distance between task 1 (respectivaly task 5)
 ## Autralian AEMO dataset Experiment
 ![download](https://user-images.githubusercontent.com/35613655/217347953-ba132840-4ad3-43f5-9052-f1ee69e9dea5.png)
 
-## Autralian appartement dataset Experiment
 
